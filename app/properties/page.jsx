@@ -4,7 +4,7 @@ import Property from "@/models/Property";
 
 const fetchAllProperties = async () => {
   await connectDB();
-  return await Property.find({});
+  return await Property.find({}).lean();
 };
 const PropertyPage = async () => {
   const properties = await fetchAllProperties();
