@@ -15,13 +15,17 @@ const NavBar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [providers, setProviders] = useState(null);
   const { data: session } = useSession();
-
+  const profileImage = session?.user?.image;
   useEffect(() => {
     const intializeAuthProviders = async () => {
       const prov = await getProviders();
       setProviders(prov);
     };
     intializeAuthProviders();
+    //if viewport is resized close the mobile menu
+    window.addEventListener("resize", () => {
+      setisMobileMenuOpen(false);
+    });
   }, []);
 
   return (
@@ -164,8 +168,11 @@ const NavBar = () => {
                   <span className="sr-only">Open user menu</span>
                   <Image
                     className="h-8 w-8 rounded-full"
-                    src={profileDefImage}
+                    src={profileImage || profileDefImage}
                     alt=""
+                    height="0"
+                    width="0"
+                    sizes="100vw"
                   />
                 </button>
               </div>
@@ -203,6 +210,10 @@ const NavBar = () => {
                     role="menuitem"
                     tabIndex="-1"
                     id="user-menu-item-2"
+                    onClick={() => {
+                      signOut();
+                      setIsProfileMenuOpen(false);
+                    }}
                   >
                     Sign Out
                   </button>
