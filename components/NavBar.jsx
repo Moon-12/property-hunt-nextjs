@@ -4,12 +4,26 @@ import Image from "next/image";
 import profileDefImage from "@/assets/images/profile.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FaGoogle } from "react-icons/fa";
+import { getProviders, useSession, signIn, signOut } from "next-auth/react";
+
 const NavBar = () => {
   const pathname = usePathname();
   const [isMobileMenuOpen, setisMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [providers, setProviders] = useState(null);
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    const intializeAuthProviders = async () => {
+      const prov = await getProviders();
+      setProviders(prov);
+    };
+    intializeAuthProviders();
+  }, []);
+
   return (
     <nav className="bg-blue-700 border-b border-blue-500">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -71,7 +85,7 @@ const NavBar = () => {
                 >
                   Properties
                 </Link>
-                {isLoggedIn && (
+                {session && (
                   <Link
                     href="/properties/add"
                     className={`${
@@ -86,16 +100,22 @@ const NavBar = () => {
           </div>
 
           {/* <!-- Right Side Menu (Logged Out) --> */}
-          {!isLoggedIn && (
+          {!session && (
             <div className="hidden md:block md:ml-6">
               <div className="flex items-center">
-                <button
-                  className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                  onClick={() => setIsLoggedIn(!isLoggedIn)}
-                >
-                  <i className="fa-brands fa-google text-white mr-2"></i>
-                  <span>Login or Register</span>
-                </button>
+                {providers &&
+                  Object.values(providers).map((provider) => {
+                    return (
+                      <button
+                        key={provider.id}
+                        className="flex items-center gap-2 text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
+                        onClick={() => signIn(provider.id)}
+                      >
+                        <FaGoogle />
+                        <span>Login or Register</span>
+                      </button>
+                    );
+                  })}
               </div>
             </div>
           )}
@@ -213,7 +233,7 @@ const NavBar = () => {
             >
               Properties
             </Link>
-            {isLoggedIn && (
+            {session && (
               <Link
                 href="/properties/add"
                 className={`${
@@ -223,7 +243,7 @@ const NavBar = () => {
                 Add Property
               </Link>
             )}
-            {!isLoggedIn && (
+            {!session && (
               <button
                 className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 my-5"
                 onClick={() => setIsLoggedIn(!isLoggedIn)}
