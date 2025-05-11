@@ -2,6 +2,7 @@ import "@/assets/styles/global.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import AuthSessionProvider from "@/components/AuthSessionProvider";
+import { ToastContainer } from "react-toastify";
 const RootLayout = ({ children }) => {
   return (
     <html>
@@ -10,6 +11,7 @@ const RootLayout = ({ children }) => {
           <NavBar />
           <main>{children}</main>
           <Footer />
+          <ToastContainer />
         </body>
       </AuthSessionProvider>
     </html>

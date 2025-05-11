@@ -7,7 +7,13 @@ import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 const PropertyPage = async ({ params }) => {
   const property = await Property.findById(params.id).lean();
-
+  if (!property) {
+    return (
+      <h1 className="text-center text-2xl font-bold mt-10">
+        Property Not Found
+      </h1>
+    );
+  }
   return (
     <>
       <div>
