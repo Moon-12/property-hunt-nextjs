@@ -1,12 +1,16 @@
+import BookmarkButton from "@/components/BookmarkButton";
+import PropertyContactForm from "@/components/PropertyContactForm";
 import PropertyHeaderImage from "@/components/PropertyHeaderImage";
 import PropertyImages from "@/components/PropertyImages";
 import PropertyInfo from "@/components/PropertyInfo";
-import PropertyInfoSideBar from "@/components/PropertyInfoSideBar";
+import ShareButton from "@/components/ShareButton";
 import Property from "@/models/Property";
+import { convertToSerializeableObject } from "@/utils/convertToObject";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 const PropertyPage = async ({ params }) => {
-  const property = await Property.findById(params.id).lean();
+  const propertyDoc = await Property.findById(params.id).lean();
+  const property = convertToSerializeableObject(propertyDoc);
   if (!property) {
     return (
       <h1 className="text-center text-2xl font-bold mt-10">
@@ -31,7 +35,17 @@ const PropertyPage = async ({ params }) => {
               <div className="container m-auto py-10 px-6">
                 <div className="grid grid-cols-1 md:grid-cols-[70%_28%] w-full gap-6">
                   <PropertyInfo property={property} />
-                  <PropertyInfoSideBar />
+                  <aside className="space-y-4">
+                    <BookmarkButton property={property} />
+                    <ShareButton property={property} />
+                    {/* <!-- Contact Form --> */}
+                    <div className="bg-white p-6 rounded-lg shadow-md">
+                      <h3 className="text-xl font-bold mb-6">
+                        Contact Property Manager{" "}
+                      </h3>
+                      <PropertyContactForm />
+                    </div>
+                  </aside>
                 </div>
               </div>
             </section>
