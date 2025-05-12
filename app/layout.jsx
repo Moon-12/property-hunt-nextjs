@@ -3,18 +3,21 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import AuthSessionProvider from "@/components/AuthSessionProvider";
 import { ToastContainer } from "react-toastify";
+import { GlobalContextProvider } from "@/context/GlobalContext";
 const RootLayout = ({ children }) => {
   return (
-    <html>
-      <AuthSessionProvider>
-        <body>
-          <NavBar />
-          <main>{children}</main>
-          <Footer />
-          <ToastContainer />
-        </body>
-      </AuthSessionProvider>
-    </html>
+    <AuthSessionProvider>
+      <GlobalContextProvider>
+        <html>
+          <body>
+            <NavBar />
+            <main>{children}</main>
+            <Footer />
+            <ToastContainer />
+          </body>
+        </html>
+      </GlobalContextProvider>
+    </AuthSessionProvider>
   );
 };
 
