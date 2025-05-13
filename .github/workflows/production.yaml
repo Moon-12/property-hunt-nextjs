@@ -6,8 +6,6 @@ on:
   push:
     tags:
       - "v*" # Matches any tag pushed starting with v
-    branches:
-      - release #
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
