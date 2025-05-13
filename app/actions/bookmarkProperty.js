@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 export async function bookmarkProperty(propertyId) {
   const session = await getUserSession();
   if (!session || !session.user) {
-    throw new Error("user login is required");
+    throw new Error("Please login to bookmark the property");
   }
   const { userId } = session;
 

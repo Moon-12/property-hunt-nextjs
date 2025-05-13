@@ -1,5 +1,6 @@
+import User from "@/models/User";
 import mongoose from "mongoose";
-
+import Message from "@/models/Message";
 let connected = false;
 
 const connectDB = async () => {

@@ -6,8 +6,10 @@ import Property from "@/models/Property";
 const fetchAllProperties = async (skip, pageSize) => {
   return await Property.find({}).skip(skip).limit(pageSize);
 };
-const PropertyPage = async ({ searchParams: { page = 1, pageSize = 9 } }) => {
+const PropertyPage = async ({ searchParams }) => {
+  const { page = 1, pageSize = 9 } = await searchParams;
   await connectDB();
+
   const skip = (page - 1) * pageSize;
   const total = await Property.countDocuments({});
 

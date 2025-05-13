@@ -11,11 +11,14 @@ const BookmarkButton = ({ property }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [loading, setLoading] = useState(true);
   const handleBookmark = () => {
-    bookmarkProperty(property._id).then((res) => {
-      if (res.error) return toast.error(res.error);
-      toast.success(res.message);
-      setIsBookmarked(res.isBookmarked);
-    });
+    bookmarkProperty(property._id)
+      .then((res) => {
+        toast.success(res.message);
+        setIsBookmarked(res.isBookmarked);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   };
   useEffect(() => {
     if (!userId) {
