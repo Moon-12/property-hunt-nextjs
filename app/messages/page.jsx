@@ -22,7 +22,6 @@ const MessagesPage = async () => {
     const msg = convertToSerializeableObject(msgDoc);
     msg.sender = convertToSerializeableObject(msg.sender);
     msg.property = convertToSerializeableObject(msg.property);
-    console.log("ms", msg);
     return msg;
   });
 
