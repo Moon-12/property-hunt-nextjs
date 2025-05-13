@@ -4,10 +4,10 @@ import connectDB from "@/config/database";
 import Property from "@/models/Property";
 
 const fetchAllProperties = async (skip, pageSize) => {
-  await connectDB();
   return await Property.find({}).skip(skip).limit(pageSize);
 };
 const PropertyPage = async ({ searchParams: { page = 1, pageSize = 9 } }) => {
+  await connectDB();
   const skip = (page - 1) * pageSize;
   const total = await Property.countDocuments({});
 
