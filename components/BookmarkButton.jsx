@@ -37,17 +37,28 @@ const BookmarkButton = ({ property }) => {
     return <p className="text-center">Loading...</p>;
   }
   return (
-    <button
-      className={`${
-        isBookmarked
-          ? "bg-red-500 hover:bg-red-600"
-          : "bg-blue-500 hover:bg-blue-600"
-      }  text-white font-bold w-full py-2 px-4 rounded-full flex items-center justify-center`}
-      onClick={handleBookmark}
-    >
-      <FaBookmark className="m-2" />
-      {isBookmarked ? "Remove Bookmark Property" : "Bookmark Property"}
-    </button>
+    <div className="relative group">
+      <button
+        data-tooltip-target="tooltip-default"
+        className={`${
+          isBookmarked
+            ? "bg-red-500 hover:bg-red-600"
+            : "bg-blue-500 hover:bg-blue-600"
+        }  text-white font-bold w-full py-2 px-4 rounded-full flex items-center justify-center disabled:bg-blue-300 `}
+        onClick={handleBookmark}
+        disabled={!session || !session.user}
+      >
+        <FaBookmark className="m-2" />
+        {isBookmarked ? "Remove Bookmark Property" : "Bookmark Property"}
+      </button>
+      {!session && (
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-max bg-amber-300 text-black text-xs rounded px-2 py-1">
+          Please login to Bookmark Property
+          {/* <!-- Arrow pointing down --> */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-full h-0 w-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-black"></div>
+        </div>
+      )}
+    </div>
   );
 };
 
