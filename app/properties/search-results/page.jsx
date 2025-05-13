@@ -6,9 +6,8 @@ import { convertToSerializeableObject } from "@/utils/convertToObject";
 import Link from "next/link";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 
-const SearchResultPage = async ({
-  searchParams: { location, propertyType },
-}) => {
+const SearchResultPage = async ({ searchParams }) => {
+  const { location, propertyType } = await searchParams;
   await connectDB();
 
   const locationPattern = new RegExp(location, "i");
