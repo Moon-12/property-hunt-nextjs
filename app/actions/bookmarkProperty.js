@@ -27,7 +27,6 @@ export async function bookmarkProperty(propertyId) {
     bookmarkUser.bookmarks.push(propertyId);
     message = "Bookmark added successfully";
   }
-  console.log("user", bookmarkUser);
   await bookmarkUser.save();
 
   revalidatePath("/properties/saved", "page");

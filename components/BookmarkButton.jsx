@@ -22,12 +22,9 @@ const BookmarkButton = ({ property }) => {
       setLoading(false);
       return;
     }
-    console.log("here");
     checkBookmarkStatus(property._id).then((res) => {
-      console.log(res);
       if (res.error) toast.error(res.error);
       if (res.isBookmarked) {
-        console.log("book", res.isBookmarked);
         setIsBookmarked(res.isBookmarked);
       }
       setLoading(false);
