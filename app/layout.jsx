@@ -5,6 +5,7 @@ import AuthSessionProvider from "@/components/AuthSessionProvider";
 import { ToastContainer } from "react-toastify";
 import { GlobalContextProvider } from "@/context/GlobalContext";
 import "photoswipe/dist/photoswipe.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 const RootLayout = ({ children }) => {
   return (
     <AuthSessionProvider>

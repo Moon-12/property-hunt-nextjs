@@ -4,7 +4,7 @@ import Image from "next/image";
 import profileDefImage from "@/assets/images/profile.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { getProviders, useSession, signIn, signOut } from "next-auth/react";
 import UnreadMessageCount from "./UnreadMessageCount";
@@ -16,6 +16,7 @@ const NavBar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [providers, setProviders] = useState(null);
   const { data: session } = useSession();
+  const menuRef = useRef(null);
   const profileImage = session?.user?.image;
   useEffect(() => {
     const intializeAuthProviders = async () => {
@@ -27,6 +28,15 @@ const NavBar = () => {
     window.addEventListener("resize", () => {
       setisMobileMenuOpen(false);
     });
+
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -184,6 +194,7 @@ const NavBar = () => {
                   aria-orientation="vertical"
                   aria-labelledby="user-menu-button"
                   tabIndex="-1"
+                  ref={menuRef}
                 >
                   <Link
                     href="/profile"
