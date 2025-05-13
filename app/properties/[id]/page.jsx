@@ -4,6 +4,7 @@ import PropertyHeaderImage from "@/components/PropertyHeaderImage";
 import PropertyImages from "@/components/PropertyImages";
 import PropertyInfo from "@/components/PropertyInfo";
 import ShareButton from "@/components/ShareButton";
+import connectDB from "@/config/database";
 import Property from "@/models/Property";
 import { convertToSerializeableObject } from "@/utils/convertToObject";
 import Link from "next/link";
@@ -11,6 +12,7 @@ import { FaArrowLeft } from "react-icons/fa";
 
 const PropertyPage = async ({ params }) => {
   const { id } = await params;
+  await connectDB();
   const propertyDoc = await Property.findById(id).lean();
   const property = convertToSerializeableObject(propertyDoc);
   if (!property) {
