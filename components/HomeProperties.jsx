@@ -1,11 +1,11 @@
 import Link from "next/link";
 import PropertyCard from "./PropertyCard";
-import connectDB from "@/config/database";
-import Property from "@/models/Property";
 
 const fetchRecentProperties = async () => {
-  await connectDB();
-  return await Property.find({}).sort({ createdAt: -1 }).limit(3).lean();
+  const res = await fetch(`${process.env.NEXT_API_URL}/properties/recent`, {
+    cache: "no-store", // prevent caching if you want fresh data each request
+  });
+  return await res.json();
 };
 const HomeProperties = async () => {
   const recentProperties = await fetchRecentProperties();
