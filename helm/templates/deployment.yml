@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-deployment
+  namespace: twinkle-ns
+  labels:
+    app: {{ .Chart.Name }}
+    project: twinkle-chat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+        project: twinkle-chat
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-container
+          image: 192.168.0.147:30008/{{ .Chart.Name }}:{{ .Chart.AppVersion }}
+          imagePullPolicy: Always  
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /property-hunt
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 600
+          livenessProbe:
+            httpGet:
+              path: /property-hunt
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 600
+          env:
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: property-hunt-secret
+                  key: MONGODB_URI
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: property-hunt-secret
+                  key: GOOGLE_CLIENT_ID
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: property-hunt-secret
+                  key: GOOGLE_CLIENT_SECRET
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: property-hunt-secret
+                  key: NEXTAUTH_SECRET
+            - name: CLOUDINARY_CLOUD_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: property-hunt-secret
+                  key: CLOUDINARY_CLOUD_NAME
+            - name: CLOUDINARY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: property-hunt-secret
+                  key: CLOUDINARY_API_KEY
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: property-hunt-secret
+                  key: CLOUDINARY_API_SECRET
+            - name: NEXT_PUBLIC_GOOGLE_GEOCODING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: property-hunt-secret
+                  key: NEXT_PUBLIC_GOOGLE_GEOCODING_API_KEY
+            - name: NEXT_PUBLIC_MAPBOX_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: property-hunt-secret
+                  key: NEXT_PUBLIC_MAPBOX_API_KEY
+            - name: NEXTAUTH_URL
+              valueFrom:
+                secretKeyRef:
+                  name: property-hunt-secret
+                  key: NEXTAUTH_URL

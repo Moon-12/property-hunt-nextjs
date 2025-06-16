@@ -11,7 +11,7 @@ import {
 } from "react-share";
 
 const ShareButton = ({ property }) => {
-  const shareUrl = `${process.env.NEXT_PUBLIC_API_DOMAIN}/properties/${property._id}`;
+  const shareUrl = `/property-hunt/api/properties/${property._id}`;
 
   return (
     <>

@@ -14,6 +14,8 @@ const nextConfig = {
       },
     ],
   },
+  output: "standalone",
+  basePath: "/property-hunt",
 };
 
 export default nextConfig;
