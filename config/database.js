@@ -1,9 +1,12 @@
-import User from "@/models/User";
 import mongoose from "mongoose";
-import Message from "@/models/Message";
 let connected = false;
 
 const connectDB = async () => {
+  // Skip DB connection during Docker build
+  if (process.env.NEXT_BUILD === "true") {
+    console.log("Skipping DB connection during Docker build");
+    return;
+  }
   mongoose.set("strictQuery", true);
 
   // If the database is already connected, don't connect again
