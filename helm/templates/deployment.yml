@@ -90,6 +90,11 @@ spec:
                   key: NEXT_PUBLIC_MAPBOX_API_KEY
             - name: NEXTAUTH_URL
               valueFrom:
-                secretKeyRef:
+                 secretKeyRef:
                   name: property-hunt-secret
                   key: NEXTAUTH_URL
+            - name: NEXT_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: property-hunt-secret
+                  key: NEXT_API_URL
